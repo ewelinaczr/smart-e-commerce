@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { s } from "react-native-size-matters";
 import { FlatList, StyleSheet } from "react-native";
+import { getProductsData } from "../../config/dataServices";
 import AppSaveView from "../../components/views/AppSaveView";
 import HomeHeader from "../../components/headers/HomeHeader";
-import SHOP_DATA from "../../data/products";
-import ProductGroup from "../../components/cards/ProductGroup";
+import ProductGroup, {
+  ProductGroupProps,
+} from "../../components/cards/ProductGroup";
 
 const HomeScreen = () => {
+  const [products, setProducts] = useState<ProductGroupProps[]>([]);
+  const fetchData = async () => {
+    const data = await getProductsData();
+    setProducts(data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <AppSaveView style={styles.container}>
       <HomeHeader />
       <FlatList
-        data={SHOP_DATA}
+        data={products}
         keyExtractor={(item) => item.title}
         renderItem={({ item }) => (
           <ProductGroup title={item.title} items={item.items} />

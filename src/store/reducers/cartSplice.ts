@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Product } from "../../components/cards/ProductGroup";
+import { ProductI } from "../../components/cards/ProductGroup";
 
 interface CartItem {
-  product: Product;
+  product: ProductI;
   sum: number;
   qty: number;
 }
@@ -62,6 +62,10 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItemToCart, removeItemFromCart, removeProductFromCart } =
-  cartSlice.actions;
+export const {
+  addItemToCart,
+  removeItemFromCart,
+  removeProductFromCart,
+  clearCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

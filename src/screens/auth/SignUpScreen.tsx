@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { s, vs } from "react-native-size-matters";
 import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
@@ -13,6 +14,13 @@ import * as yup from "yup";
 import { InferType } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { MainAppStackParamList } from "../../navigation/MainAppStack";
+import { AuthParamList } from "../../navigation/AuthStack";
+import { showMessage } from "react-native-flash-message";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { setUserData } from "../../store/reducers/userSlice";
 
 const schema = yup.object({
   userName: yup
@@ -40,13 +48,39 @@ const schema = yup.object({
 type FormData = InferType<typeof schema>;
 
 const SignUpScreen = () => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<StackNavigationProp<MainAppStackParamList>>();
+  const authNavigation = useNavigation<StackNavigationProp<AuthParamList>>();
   const { control, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-  const saveSignUp = (formData: FormData) => {
-    console.log(formData);
-    navigation.navigate("MainAppBottomTabs");
+  const dispatch = useDispatch();
+  const saveSignUp = async (formData: FormData) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      dispatch(setUserData(userCredential.user.uid));
+      navigation.navigate("MainAppBottomTabs");
+    } catch (err: any) {
+      let errorMessage = "";
+      switch (err.code) {
+        case "auth/email-already-in-use":
+          errorMessage = "This email is already in use";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "This email is not valid";
+          break;
+        case "auth/weak-password":
+          errorMessage = "This password is too weak";
+          break;
+        default:
+          errorMessage = "An error occured during sign up";
+      }
+      showMessage({ type: "danger", message: errorMessage });
+    }
   };
 
   return (
@@ -75,7 +109,7 @@ const SignUpScreen = () => {
       />
       <AppButton
         title="Go to Sign In"
-        onPress={() => navigation.navigate("SignIn")}
+        onPress={() => authNavigation.navigate("SignIn")}
         textColor={AppColors.primary}
         style={styles.signInButton}
       />

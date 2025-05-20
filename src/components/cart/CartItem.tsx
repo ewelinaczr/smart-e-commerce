@@ -2,13 +2,14 @@ import React from "react";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { s, vs } from "react-native-size-matters";
 import AntDesign from "@expo/vector-icons/AntDesign";
+
 import AppText from "../tests/AppText";
 import { AppColors } from "../../styles/colors";
 import { AppFonts } from "../../styles/fonts";
-import { Product } from "../cards/ProductGroup";
+import { ProductI } from "../cards/ProductGroup";
 
 interface CartItemProps {
-  product: Product;
+  product: ProductI;
   qty: number;
   sum: number;
   onDelete: () => void;

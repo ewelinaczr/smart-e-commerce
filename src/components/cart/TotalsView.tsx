@@ -1,12 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { s, vs } from "react-native-size-matters";
+import { SHIPPING_FEES, TAXES } from "../../constants/constants";
 import { AppColors } from "../../styles/colors";
 import { AppFonts } from "../../styles/fonts";
 import AppText from "../tests/AppText";
-
-const taxes = 15;
-const shippingFees = 10;
 
 interface TotalsViewProps {
   itemsPrice: number;
@@ -21,17 +19,17 @@ export default function TotalsView({ itemsPrice }: TotalsViewProps) {
       </View>
       <View style={styles.row}>
         <AppText style={styles.title}>Taxes:</AppText>
-        <AppText style={styles.price}>${taxes}</AppText>
+        <AppText style={styles.price}>${TAXES}</AppText>
       </View>
       <View style={styles.row}>
         <AppText style={styles.title}>Shipping Fee:</AppText>
-        <AppText style={styles.price}>${shippingFees}</AppText>
+        <AppText style={styles.price}>${SHIPPING_FEES}</AppText>
       </View>
       <View style={styles.separator} />
       <View style={styles.row}>
         <AppText style={styles.title}>Order Total:</AppText>
         <AppText style={styles.price}>
-          ${itemsPrice + taxes + shippingFees}
+          ${itemsPrice + TAXES + SHIPPING_FEES}
         </AppText>
       </View>
     </View>

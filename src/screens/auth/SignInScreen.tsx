@@ -1,19 +1,27 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { s, vs } from "react-native-size-matters";
-import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
-import { IMAGES } from "../../constants/images-paths";
-import { AppColors } from "../../styles/colors";
+import { StackNavigationProp } from "@react-navigation/stack";
 import * as yup from "yup";
 import { InferType } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { showMessage } from "react-native-flash-message";
+
+import { sharedPaddingHorizontal } from "../../styles/sharedStyles";
+import { IMAGES } from "../../constants/images-paths";
+import { AppColors } from "../../styles/colors";
 import AppSaveView from "../../components/views/AppSaveView";
 import AppTextInputController from "../../components/inputs/AppTextInputController";
-import AppTestInput from "../../components/inputs/AppTestInput";
 import AppText from "../../components/tests/AppText";
 import AppButton from "../../components/buttons/AppButton";
+import { auth } from "../../config/firebase";
+import { MainAppStackParamList } from "../../navigation/MainAppStack";
+import { AuthParamList } from "../../navigation/AuthStack";
+import { setUserData } from "../../store/reducers/userSlice";
 
 const schema = yup.object({
   email: yup
@@ -37,13 +45,36 @@ const schema = yup.object({
 type FormData = InferType<typeof schema>;
 
 const SignInScreen = () => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<StackNavigationProp<MainAppStackParamList>>();
+  const authNavigation = useNavigation<StackNavigationProp<AuthParamList>>();
   const { control, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-  const saveLogin = (formData: FormData) => {
-    console.log(formData);
-    navigation.navigate("MainAppBottomTabs");
+  const dispatch = useDispatch();
+  const saveLogin = async (formData: FormData) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      dispatch(setUserData(userCredential.user.uid));
+      navigation.navigate("MainAppBottomTabs");
+    } catch (err: any) {
+      let errorMessage = "";
+      switch (err.code) {
+        case "auth/user-not-found":
+          errorMessage = "User not found";
+          break;
+        case "auth/invalid-credentials":
+          errorMessage = "Wrong email or password";
+          break;
+        default:
+          errorMessage = "An error occured during sign in";
+      }
+      showMessage({ type: "danger", message: errorMessage });
+    }
   };
 
   return (
@@ -64,7 +95,7 @@ const SignInScreen = () => {
       <AppButton title="Log in" onPress={handleSubmit(saveLogin)} />
       <AppButton
         title="Sign Up"
-        onPress={() => navigation.navigate("SignUp")}
+        onPress={() => authNavigation.navigate("SignUp")}
         textColor={AppColors.primary}
         style={styles.registerButton}
       />

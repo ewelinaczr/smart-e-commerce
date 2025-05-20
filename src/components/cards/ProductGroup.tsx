@@ -1,23 +1,24 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import AppText from "../tests/AppText";
 import { FlatList } from "react-native-gesture-handler";
-import ProductCard from "./ProductCard";
 import { s, vs } from "react-native-size-matters";
-import { AppFonts } from "../../styles/fonts";
 import { useDispatch } from "react-redux";
+
+import AppText from "../tests/AppText";
+import ProductCard from "./ProductCard";
+import { AppFonts } from "../../styles/fonts";
 import { addItemToCart } from "../../store/reducers/cartSplice";
 
-export interface Product {
+export interface ProductI {
   id: number;
   name: string;
   imageUrl: string;
   price: number;
 }
 
-interface ProductGroupProps {
+export interface ProductGroupProps {
   title: string;
-  items: Product[];
+  items: ProductI[];
 }
 
 const ProductGroup = ({ title, items }: ProductGroupProps) => {
