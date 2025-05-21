@@ -26,7 +26,7 @@ export default function CartItem({
   onDecrease,
 }: CartItemProps) {
   const { name, imageUrl } = product;
-  console.log("qty", qty);
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>

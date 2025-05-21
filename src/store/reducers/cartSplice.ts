@@ -36,7 +36,6 @@ const cartSlice = createSlice({
     },
     // Remove item from cart (decrease quantity)
     removeItemFromCart: (state, action) => {
-      console.log("removeItemFromCart", action.payload);
       const existingItem = state.items.find(
         (item) => item.product.id === action.payload?.id
       );
