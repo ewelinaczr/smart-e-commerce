@@ -14,7 +14,7 @@ import {
   addItemToCart,
   removeItemFromCart,
   removeProductFromCart,
-} from "../../store/reducers/cartSplice";
+} from "../../store/reducers/cartSlice";
 import { MainAppStackParamList } from "../../navigation/MainAppStack";
 
 const CartScreen = () => {

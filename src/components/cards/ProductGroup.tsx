@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import AppText from "../tests/AppText";
 import ProductCard from "./ProductCard";
 import { AppFonts } from "../../styles/fonts";
-import { addItemToCart } from "../../store/reducers/cartSplice";
+import { addItemToCart } from "../../store/reducers/cartSlice";
 
 export interface ProductI {
   id: number;

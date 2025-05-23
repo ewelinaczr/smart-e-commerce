@@ -27,7 +27,7 @@ import { db } from "../../config/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
-import { clearCart } from "../../store/reducers/cartSplice";
+import { clearCart } from "../../store/reducers/cartSlice";
 
 const schema = yup.object({
   fullName: yup

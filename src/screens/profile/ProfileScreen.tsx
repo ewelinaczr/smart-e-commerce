@@ -6,15 +6,24 @@ import { s, vs } from "react-native-size-matters";
 import { useTranslation } from "react-i18next";
 import { MainAppStackParamList } from "../../navigation/MainAppStack";
 import { SheetManager } from "react-native-actions-sheet";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase";
 import ProfileButton from "../../components/buttons/ProfileButton";
 import HomeHeader from "../../components/headers/HomeHeader";
 import LanguageBottomSheet from "../../components/language/LanguageBottomSheet";
 import AppSaveView from "../../components/views/AppSaveView";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
   const navigation =
     useNavigation<StackNavigationProp<MainAppStackParamList>>();
   const { t } = useTranslation();
+
+  const handleLogOut = async () => {
+    await AsyncStorage.removeItem("USER_ID");
+    navigation.navigate("AuthStack");
+    await signOut(auth);
+  };
 
   return (
     <AppSaveView>
@@ -29,7 +38,7 @@ const ProfileScreen = () => {
           onPress={() => SheetManager.show("LANG_SHEET")}
         />
         <LanguageBottomSheet />
-        <ProfileButton title={t("profile_logout")} />
+        <ProfileButton title={t("profile_logout")} onPress={handleLogOut} />
       </View>
     </AppSaveView>
   );
