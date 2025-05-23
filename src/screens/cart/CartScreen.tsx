@@ -16,6 +16,7 @@ import {
   removeProductFromCart,
 } from "../../store/reducers/cartSlice";
 import { MainAppStackParamList } from "../../navigation/MainAppStack";
+import AppSaveView from "../../components/views/AppSaveView";
 
 const CartScreen = () => {
   const navigation =
@@ -31,33 +32,35 @@ const CartScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <HomeHeader />
-      <View style={{ paddingHorizontal: sharedPaddingHorizontal, flex: 1 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={items}
-          keyExtractor={(item, index) =>
-            item?.product?.id?.toString() ?? `cart-item-${index}`
-          }
-          renderItem={({ item }) => (
-            <CartItem
-              product={item.product}
-              qty={item.qty}
-              sum={item.sum}
-              onDelete={() => dispatch(removeProductFromCart(item.product))}
-              onDecrease={() => dispatch(removeItemFromCart(item.product))}
-              onIncrease={() => dispatch(addItemToCart(item.product))}
-            />
-          )}
-        />
-        <TotalsView itemsPrice={totalProductsPrice} />
-        <AppButton
-          title="Continue"
-          onPress={() => navigation.navigate("Checkout")}
-        />
+    <AppSaveView>
+      <View style={styles.container}>
+        <HomeHeader />
+        <View style={{ paddingHorizontal: sharedPaddingHorizontal, flex: 1 }}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={items}
+            keyExtractor={(item, index) =>
+              item?.product?.id?.toString() ?? `cart-item-${index}`
+            }
+            renderItem={({ item }) => (
+              <CartItem
+                product={item.product}
+                qty={item.qty}
+                sum={item.sum}
+                onDelete={() => dispatch(removeProductFromCart(item.product))}
+                onDecrease={() => dispatch(removeItemFromCart(item.product))}
+                onIncrease={() => dispatch(addItemToCart(item.product))}
+              />
+            )}
+          />
+          <TotalsView itemsPrice={totalProductsPrice} />
+          <AppButton
+            title="Continue"
+            onPress={() => navigation.navigate("Checkout")}
+          />
+        </View>
       </View>
-    </View>
+    </AppSaveView>
   );
 };
 
