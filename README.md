@@ -3,6 +3,7 @@
 A modern e-commerce mobile app built with React Native, Expo, Redux Toolkit, Firebase, and TypeScript.
 
 ## Demo
+![FruitFusion](https://github.com/user-attachments/assets/094c4a75-ca58-4339-a5f6-884ac6379846)
 
 ## Features
 
