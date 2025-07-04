@@ -2,7 +2,7 @@
 
 A modern e-commerce mobile app built with React Native, Expo, Redux Toolkit, Firebase, and TypeScript.
 
-![FF](https://github.com/user-attachments/assets/4b3ddc92-d019-4be0-9a94-9be12c20fa28)
+![FF](https://github.com/user-attachments/assets/a76aa47d-1001-4951-ab8b-fb37999497f0)
 
 ## Features
 
