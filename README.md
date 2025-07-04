@@ -1,9 +1,7 @@
 # Fruit Fusion SmartECommerce
 
 A modern e-commerce mobile app built with React Native, Expo, Redux Toolkit, Firebase, and TypeScript.
-
-## Demo
-![FruitFusion1](https://github.com/user-attachments/assets/4751d914-7a7a-48f8-be88-04530f72b730)
+![FF](https://github.com/user-attachments/assets/4b3ddc92-d019-4be0-9a94-9be12c20fa28)
 
 ## Features
 
